@@ -240,7 +240,7 @@ function getNextFridayThe13th(date) {
   const day = 13;
   for (let month = data.getMonth(); month <= 11; month += 1) {
     nextDate = new Date(year, month, day);
-    if (nextDate.getDay() === 5 && nextDate.getDate() === day) {
+    if (nextDate.getDay() === 5) {
       return nextDate;
     }
   }
