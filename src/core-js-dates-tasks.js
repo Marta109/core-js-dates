@@ -288,8 +288,42 @@ function getQuarter(date) {
  * { start: '01-01-2024', end: '15-01-2024' }, 1, 3 => ['01-01-2024', '05-01-2024', '09-01-2024', '13-01-2024']
  * { start: '01-01-2024', end: '10-01-2024' }, 1, 1 => ['01-01-2024', '03-01-2024', '05-01-2024', '07-01-2024', '09-01-2024']
  */
-function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
-  throw new Error('Not implemented');
+function getWorkSchedule(period, countWorkDays, countOffDays) {
+  const arr1 = period.start.split('-');
+  const year1 = arr1[2];
+  const month1 = arr1[1] - 1;
+  const day1 = arr1[0];
+  const startDate = new Date(year1, month1, day1);
+
+  const arr2 = period.end.split('-');
+  const year2 = arr2[2];
+  const month2 = arr2[1] - 1;
+  const day2 = arr2[0];
+  const endDate = new Date(year2, month2, day2);
+
+  const result = [];
+
+  const currentDate = new Date(startDate);
+  let workDays = 0;
+
+  while (currentDate <= endDate) {
+    if (workDays < countWorkDays) {
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
+
+      const dateString = `${day < 10 ? `0${day}` : day}-${month < 10 ? `0${month}` : month}-${year}`;
+      result.push(dateString);
+      workDays += 1;
+    } else {
+      workDays = 0;
+      currentDate.setDate(currentDate.getDate() + countOffDays - 1);
+    }
+
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return result;
 }
 
 /**
